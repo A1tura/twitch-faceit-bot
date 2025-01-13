@@ -116,7 +116,7 @@ func main() {
 					if streamOnline {
 						chat.SendMessage(utils.FormatStatsMessage(utils.ParseUsername(string(msg)), dayStats))
 					} else {
-						chat.SendMessage(fmt.Sprintf("%s :( Не играли сегодня", utils.ParseUsername(string(msg))))
+						chat.SendMessage(fmt.Sprintf("%s :( Stream is offline", utils.ParseUsername(string(msg))))
 					}
 				}
 				if textMessage == "!stats Month" {

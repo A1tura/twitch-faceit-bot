@@ -10,7 +10,7 @@ import (
 
 func FormatStatsMessage(username string, stats types.Stats) string {
 	// Format the message using the retrieved stats with clearer separaion
-	message := fmt.Sprintf("@"+username+" Победы: %d || Поражение: %d", stats.Wins, stats.Loses)
+	message := fmt.Sprintf("@"+username+" Wins: %d || Loses: %d", stats.Wins, stats.Loses)
 
 	return message
 }
