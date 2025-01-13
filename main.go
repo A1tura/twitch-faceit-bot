@@ -24,7 +24,6 @@ var streamOnline bool
 var streamStartedAt time.Time
 
 func startUpdate(stream stream.Stream) {
-    godotenv.Load()
 	ticker := time.NewTicker(1 * time.Minute)
 	defer ticker.Stop()
 
@@ -55,6 +54,7 @@ func startUpdate(stream stream.Stream) {
 }
 
 func main() {
+    godotenv.Load()
 	cooldown, err := strconv.Atoi(os.Getenv("COOLDOWN"))
 	if err != nil {
 		panic(err)
