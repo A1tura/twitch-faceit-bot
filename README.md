@@ -34,6 +34,8 @@ In the `Dockerfile`, you'll need to configure the following environment variable
     - To get your Faceit player ID, visit [Faceit API](https://www.faceit.com/api/users/v1/nicknames/*nickname*) and fetch the payload. The ID will be under the `id` field.
     - Paste this ID into the `FACEIT_ID` variable.
 
+- **`FACEIT_USERNAME`**: Faceit player username
+
 - **`FACEIT_API`**: Faceit API Key
     - To get your Faceit API key, visit [Faceit Developer Portal](https://developers.faceit.com/apps) and create an app.
     - Once your app is created, click on it and go to **API Keys**.

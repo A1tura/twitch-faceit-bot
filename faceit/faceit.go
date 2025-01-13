@@ -13,12 +13,12 @@ import (
 func isWinner(teamA, teamB types.Team, winner string) bool {
 	var streamerTeam string
 	for _, player := range teamA.Players {
-		if player.Nickname == "gleban22" {
+		if player.Nickname == os.Getenv("FACEIT_USERNAME") {
 			streamerTeam = "faction1"
 		}
 	}
 	for _, player := range teamB.Players {
-		if player.Nickname == "gleban22" {
+		if player.Nickname == os.Getenv("FACEIT_USERNAME") {
 			streamerTeam = "faction2"
 		}
 	}
@@ -37,7 +37,7 @@ func Get_mounth_stats() types.Stats {
 		panic(err)
 	}
 
-	req.Header.Add("Authorization", "Bearer " + os.Getenv("FACEIT_API"))
+	req.Header.Add("Authorization", "Bearer "+os.Getenv("FACEIT_API"))
 
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
@@ -77,7 +77,7 @@ func Get_day_stats(streamStartedAt time.Time) types.Stats {
 		panic(err)
 	}
 
-	req.Header.Add("Authorization", "Bearer " + os.Getenv("FACEIT_API"))
+	req.Header.Add("Authorization", "Bearer "+os.Getenv("FACEIT_API"))
 
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
