@@ -20,6 +20,7 @@ import (
 
 var dayStats types.Stats
 var mounthStats types.Stats
+var lastGameStats types.MathStats
 var streamOnline bool
 var streamStartedAt time.Time
 
@@ -33,6 +34,7 @@ func startUpdate(stream stream.Stream) {
 	// Initial stats fetch
 	dayStats = faceit.Get_day_stats(streamStartedAt)
 	mounthStats = faceit.Get_mounth_stats()
+    lastGameStats=  faceit.GetLastMatchStats()
 
 	fmt.Println("Initial day: ", dayStats)
 	fmt.Println("Initial mounth: ", mounthStats)
@@ -46,9 +48,8 @@ func startUpdate(stream stream.Stream) {
 				dayStats = faceit.Get_day_stats(streamStartedAt)
 			}
 			mounthStats = faceit.Get_mounth_stats()
+            lastGameStats = faceit.GetLastMatchStats()
 
-			fmt.Println("Updated day: ", dayStats)
-			fmt.Println("Updated mounth: ", mounthStats)
 		}
 	}
 }
@@ -122,6 +123,9 @@ func main() {
 				if textMessage == "!stats Month" {
 					chat.SendMessage(utils.FormatStatsMessage(utils.ParseUsername(string(msg)), mounthStats))
 				}
+                if textMessage == "!stats Last" {
+                    chat.SendMessage(utils.FormatMatchStatsString(utils.ParseUsername(string(msg)), lastGameStats))
+                }
 			}
 		}
 	}

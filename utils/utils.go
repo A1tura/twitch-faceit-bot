@@ -2,6 +2,7 @@ package utils
 
 import (
 	"fmt"
+	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -9,12 +10,27 @@ import (
 )
 
 func FormatStatsMessage(username string, stats types.Stats) string {
-	// Format the message using the retrieved stats with clearer separaion
-	message := fmt.Sprintf("@"+username+" Wins: %d || Loses: %d", stats.Wins, stats.Loses)
+	var message string
+
+	if os.Getenv("LANG") == "ru" {
+		message = fmt.Sprintf("@"+username+" Победы: %d || Поражение: %d", stats.Wins, stats.Loses)
+	} else {
+		message = fmt.Sprintf("@"+username+" Wins: %d || Looses: %d", stats.Wins, stats.Loses)
+	}
 
 	return message
 }
 
+func FormatMatchStatsString(username string, stats types.MathStats) string {
+	var message string
+	if os.Getenv("LANG") == "ru" {
+		message = fmt.Sprintf("@"+username+" Убийства: %s || Смерти: %s || Помощь: %s || КД: %s || %% В голову: %s%%", stats.Kills, stats.Deads, stats.Assists, stats.Kd, stats.Headshots)
+	} else {
+		message = fmt.Sprintf("@"+username+" Kills: %s || Deaths: %s || Assists: %s || K/D: %s || %% Headshots: %s%%", stats.Kills, stats.Deads, stats.Assists, stats.Kd, stats.Headshots)
+	}
+
+	return message
+}
 
 func ParseUsername(rawMessage string) string {
 	// Example raw message: ":username!username@username.tmi.twitch.tv PRIVMSG #channel :Hello, world!"

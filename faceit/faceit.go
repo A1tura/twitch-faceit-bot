@@ -2,6 +2,7 @@ package faceit
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -110,4 +111,75 @@ func Get_day_stats(streamStartedAt time.Time) types.Stats {
 	}
 
 	return stats
+}
+
+func GetLastMatchStats() types.MathStats {
+	url := "https://open.faceit.com/data/v4/players/" + os.Getenv("FACEIT_ID") + "/history?game=cs2&limit=1"
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		panic(err)
+	}
+
+	req.Header.Add("Authorization", "Bearer "+os.Getenv("FACEIT_API"))
+
+	res, err := http.DefaultClient.Do(req)
+	if err != nil {
+		panic(err)
+	}
+
+	reader, err := io.ReadAll(res.Body)
+	if err != nil {
+		panic(err)
+	}
+
+	var data types.Data
+
+	err = json.Unmarshal(reader, &data)
+	if err != nil {
+		panic(err)
+	}
+
+	url = "https://open.faceit.com/data/v4/matches/" + data.Items[0].MatchID + "/stats"
+	req, err = http.NewRequest("GET", url, nil)
+	if err != nil {
+		panic(err)
+	}
+
+	req.Header.Add("Authorization", "Bearer "+os.Getenv("FACEIT_API"))
+
+	res, err = http.DefaultClient.Do(req)
+	if err != nil {
+		panic(err)
+	}
+
+	reader, err = io.ReadAll(res.Body)
+	if err != nil {
+		panic(err)
+	}
+
+	var match types.MatchData
+
+	var stats = types.MathStats{}
+
+	err = json.Unmarshal(reader, &match)
+	if err != nil {
+		panic(err)
+	}
+
+	for _, team := range match.Rounds[0].Teams {
+		for _, player := range team.Players {
+			if player.Nickname == os.Getenv("FACEIT_USERNAME") {
+				stats.Kills = player.PlayerStats.Kills
+				stats.Deads = player.PlayerStats.Deaths
+				stats.Assists = player.PlayerStats.Assists
+				stats.Kd = player.PlayerStats.KD
+				stats.Headshots = player.PlayerStats.HeadshotsPercentage
+			}
+		}
+	}
+
+	fmt.Println(stats)
+
+	return stats
+
 }

@@ -2,6 +2,7 @@
 ## Commands
 - **!stats Day**: Returns the number of wins and losses for the day.
 - **!stats Month**: Returns the number of wins and losses for the current month.
+- **!stats Last**: Returns last played game stats
 
 ## Setup
 ### 1. Clone this repository to your local machine:
@@ -41,6 +42,8 @@ In the `Dockerfile`, you'll need to configure the following environment variable
     - Once your app is created, click on it and go to **API Keys**.
     - Click the **+ button** to create a new API key. Select **Server Side** in the "type" field.
     - After creation, copy the key and paste it into the `FACEIT_API` variable.
+
+- **`LANG`**: Language (for now only russian and english)
 
 
 ### 3. Build and start Docker container
